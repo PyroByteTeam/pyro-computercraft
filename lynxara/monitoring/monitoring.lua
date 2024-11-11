@@ -82,6 +82,8 @@ local function percentageCheck()
             printError()
             if triggerAlarm == true then
                 redstone.setAnalogOutput(alarmPlacement, 15)
+            else 
+                redstone.setAnalogOutput(alarmPlacement, 0)
             end
         else
             redstone.setAnalogOutput(alarmPlacement, 0)
