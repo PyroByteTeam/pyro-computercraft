@@ -24,5 +24,8 @@ if EverythingExists() == false then
 end
 
 local function SetupUI()
-
+    monitor.setBackgroundColor(colors.white)
+    monitor.clear()
 end
+
+SetupUI()
