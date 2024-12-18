@@ -123,10 +123,10 @@ Buttons.Back = function()
 end
 
 local function EventCheck()
-    local escape = false
-    while escape == false do 
+    while true do 
         sleep(0.1)
         local event, side, xPos, yPos = os.pullEvent("monitor_touch")
+        print(xPosy, yPos)
         if status == "main" then 
             if yPos == 6 and (xPos > 0 and xPos < 11) then 
                 Buttons.Reset()
