@@ -83,11 +83,24 @@ end
 Pages.Reset = function()
     monitor.setBackgroundColor(colors.white)
     monitor.clear()
+
+    -- Back Button
+    monitor.setCursorPos(1, 1)
+    monitor.setTextColor(colors.black)
+    monitor.setBackgroundColor(colors.red)
+    monitor.write("Back")
+
 end
 
 Pages.Deposit = function()
     monitor.setBackgroundColor(colors.white)
     monitor.clear()
+
+    -- Back Button
+    monitor.setCursorPos(1, 1)
+    monitor.setTextColor(colors.black)
+    monitor.setBackgroundColor(colors.red)
+    monitor.write("Back")
 end
 
 local status = "main"
@@ -125,6 +138,7 @@ end
 local function EventCheck()
     while true do 
         sleep(0.1)
+        
         local event, side, xPos, yPos = os.pullEvent("monitor_touch")
         print(xPosy, yPos)
         if status == "main" then 
