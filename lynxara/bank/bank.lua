@@ -99,13 +99,15 @@ Pages.Main = function()
         monitor.setCursorPos(width - 3, 5 + i)
         monitor.write(" ")
     end
-    monitor.setCursorPos(24, 6)
+    monitor.setCursorPos(23, 8)
+    monitor.write(string.rep(" ", width - 25))
     monitor.setBackgroundColor(colors.blue)
     monitor.setCursorPos(24, 5)
     monitor.write("            ")
     monitor.setCursorPos(24, 7)
     monitor.write("            ")
     monitor.setTextColor(colors.white)
+    monitor.setCursorPos(26, 6)
     monitor.write("Convert Disk")
 end
 
