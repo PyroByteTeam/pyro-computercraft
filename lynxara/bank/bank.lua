@@ -6,6 +6,25 @@ local drive = peripheral.find("drive")
 
 local balance = 0
 
+local Encryption = {}
+Encryption.Encrypt = function(text, key)
+    local encrypted = ""
+    for i = 1, string.len(text) do
+        local char = string.byte(text, i)
+        encrypted[i] = string.char(char + key[i % #key])
+    end
+    return encrypted
+end
+
+Encryption.Decrypt = function(text, key)
+    local decrypted = ""
+    for i = 1, string.len(text) do
+        local char = string.byte(text, i)
+        decrypted[i] = string.char(char - key[i % #key])
+    end
+    return decrypted
+end
+
 local function EverythingExists()
     if monitor == nil then
         print("Monitor not found")
@@ -94,9 +113,9 @@ Pages.Main = function()
     monitor.write(string.rep(" ", width - 25))
     monitor.setCursorPos(23, 5)
     for i = 1, 3 do
-        monitor.setCursorPos(23, 5 + i)
+        monitor.setCursorPos(23, 4 + i)
         monitor.write(" ")
-        monitor.setCursorPos(width - 3, 5 + i)
+        monitor.setCursorPos(width - 3, 4 + i)
         monitor.write(" ")
     end
     monitor.setCursorPos(23, 8)
@@ -107,7 +126,7 @@ Pages.Main = function()
     monitor.setCursorPos(24, 7)
     monitor.write("            ")
     monitor.setTextColor(colors.white)
-    monitor.setCursorPos(26, 6)
+    monitor.setCursorPos(24, 6)
     monitor.write("Convert Disk")
 end
 
@@ -173,6 +192,62 @@ Buttons.Back = function()
     status = "main"
 end
 
+Buttons.Convert = function()
+    local success = false 
+
+    if drive.isDiskPresent() == true then 
+        balance = 0 
+        local data = {money = balance}
+        local encryptedData = textutils.serializeJSON(data)
+        local key = {77, 30, 36, 18, 39, 34, 49, 56, 44, 19, 99, 97, 77, 29, 59, 100, 72, 62, 1, 1, 15, 58, 51, 5, 7, 79, 50, 3, 40, 85, 0, 87}
+        encryptedData = Encryption.Encrypt(encryptedData, key)
+        if fs.exists("disk/data") == true then 
+            fs.delete("disk/data")
+        end
+        local file = fs.open("disk/data", "w")
+        file.write(encryptedData)
+        file.close()
+        status = "none"
+        monitor.setBackgroundColor(colors.green)
+        monitor.setCursorPos(24, 5)
+        monitor.write("            ")
+        monitor.setTextColor(colors.white)
+        monitor.setCursorPos(24, 6)
+        monitor.write("Convert Disk")
+        monitor.setCursorPos(24, 7)
+        monitor.write("            ")
+        sleep(1)
+        monitor.setBackgroundColor(colors.blue)
+        monitor.setCursorPos(24, 5)
+        monitor.write("            ")
+        monitor.setTextColor(colors.white)
+        monitor.setCursorPos(24, 6)
+        monitor.write("Convert Disk")
+        monitor.setCursorPos(24, 7)
+        monitor.write("            ")
+        previousStatus = "none"
+    else 
+        monitor.setBackgroundColor(colors.red)
+        monitor.setCursorPos(24, 5)
+        monitor.write("            ")
+        monitor.setTextColor(colors.white)
+        monitor.setCursorPos(24, 6)
+        monitor.write("Convert Disk")
+        monitor.setCursorPos(24, 7)
+        monitor.write("            ")
+        sleep(1)
+        monitor.setBackgroundColor(colors.blue)
+        monitor.setCursorPos(24, 5)
+        monitor.write("            ")
+        monitor.setTextColor(colors.white)
+        monitor.setCursorPos(24, 6)
+        monitor.write("Convert Disk")
+        monitor.setCursorPos(24, 7)
+        monitor.write("            ")
+        previousStatus = "none"
+    end
+end
+
 local function EventCheck()
     while true do 
         sleep(0.1)
@@ -183,6 +258,8 @@ local function EventCheck()
                 Buttons.Reset()
             elseif yPos == 8 and (xPos > 0 and xPos < 8) then 
                 Buttons.Deposit()
+            elseif (yPos > 4 and yPos < 8) and (xPos > 23 and xPos < 36) then 
+                Buttons.Convert()
             end
         elseif status ~= "main" then 
             if yPos == 1 and (xPos > 0 and xPos < 5) then 
