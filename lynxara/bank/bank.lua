@@ -91,16 +91,20 @@ Pages.Main = function()
     -- Button to convert disk
     monitor.setCursorPos(23, 4)
     monitor.setBackgroundColor(colors.gray)
-    monitor.write(string.rep(" ", width - 4))
+    monitor.write(string.rep(" ", width - 25))
     monitor.setCursorPos(23, 5)
     for i = 1, 3 do
         monitor.setCursorPos(23, 5 + i)
         monitor.write(" ")
-        monitor.setCursorPos(width - 1, 5 + i)
+        monitor.setCursorPos(width - 3, 5 + i)
         monitor.write(" ")
     end
-    monitor.setCursorPos(25, 6)
+    monitor.setCursorPos(24, 6)
     monitor.setBackgroundColor(colors.blue)
+    monitor.setCursorPos(24, 5)
+    monitor.write("            ")
+    monitor.setCursorPos(24, 7)
+    monitor.write("            ")
     monitor.setTextColor(colors.white)
     monitor.write("Convert Disk")
 end
