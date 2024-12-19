@@ -87,6 +87,22 @@ Pages.Main = function()
         monitor.setTextColor(colors.black)
         monitor.write(" Not Inserted ")
     end
+
+    -- Button to convert disk
+    monitor.setCursorPos(23, 4)
+    monitor.setBackgroundColor(colors.gray)
+    monitor.write(string.rep(" ", width - 4))
+    monitor.setCursorPos(23, 5)
+    for i = 1, 3 do
+        monitor.setCursorPos(23, 5 + i)
+        monitor.write(" ")
+        monitor.setCursorPos(width - 1, 5 + i)
+        monitor.write(" ")
+    end
+    monitor.setCursorPos(25, 6)
+    monitor.setBackgroundColor(colors.blue)
+    monitor.setTextColor(colors.white)
+    monitor.write("Convert Disk")
 end
 
 Pages.Reset = function()
