@@ -33,7 +33,7 @@ end
 
 local Pages = {}
 Pages.Main = function()
-    monitor.setBackgroundColor(colors.white)
+    monitor.setBackgroundColor(colors.black)
     monitor.clear()
 
     local width, height = monitor.getSize()
@@ -41,59 +41,37 @@ Pages.Main = function()
 
     -- Title Label
     monitor.setCursorPos(math.floor(width / 2 - string.len(labelText) / 2), 1)
-    monitor.setTextColor(colors.black)
-    monitor.setBackgroundColor(colors.yellow)
+    monitor.setTextColor(colors.yellow)
     monitor.write(labelText)
-
-    -- Drive Status Label
-    monitor.setCursorPos(1, 3)
-    monitor.setTextColor(colors.black)
-    monitor.setBackgroundColor(colors.white)
-    monitor.write("Ticket Status: ")
-    if drive.isDiskPresent() then
-        monitor.setTextColor(colors.green)
-        monitor.write("Present")
-    else
-        monitor.setTextColor(colors.red)
-        monitor.write("Drive is Empty")
+    
+    -- Gray border\
+    monitor.setBackgroundColor(colors.gray)
+    monitor.setCursorPos(2, 2)
+    monitor.write(string.rep(" ", width - 2))
+    for i = 3, height - 2 do
+        monitor.setCursorPos(2, i)
+        monitor.write(" ")
+        monitor.setCursorPos(width, i)
+        monitor.write(" ")
     end
-
-    -- Balance Label
-    monitor.setCursorPos(1, 4)
-    monitor.setTextColor(colors.black)
-    monitor.setBackgroundColor(colors.white)
-    monitor.write("Balance: ")
-    monitor.setTextColor(colors.green)
-    monitor.write(balance)
-    monitor.write("C")
-
-    -- Button to Reset Disk
-    monitor.setCursorPos(1, 6)
-    monitor.setTextColor(colors.black)
-    monitor.setBackgroundColor(colors.blue)
-    monitor.write("Reset Disk")
-
-    -- Button to Deposit
-    monitor.setCursorPos(1, 8)
-    monitor.setTextColor(colors.black)
-    monitor.setBackgroundColor(colors.blue)
-    monitor.write("Deposit")
+    monitor.setCursorPos(2, height - 2)
+    monitor.write(string.rep(" ", width - 2))
 end
 
 Pages.Reset = function()
-    monitor.setBackgroundColor(colors.white)
+    monitor.setBackgroundColor(colors.black)
     monitor.clear()
 
     -- Back Button
     monitor.setCursorPos(1, 1)
-    monitor.setTextColor(colors.black)
+    monitor.setTextColor(colors.white)
     monitor.setBackgroundColor(colors.red)
     monitor.write("Back")
 
 end
 
 Pages.Deposit = function()
-    monitor.setBackgroundColor(colors.white)
+    monitor.setBackgroundColor(colors.black)
     monitor.clear()
 
     -- Back Button
