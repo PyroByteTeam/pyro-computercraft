@@ -1,3 +1,5 @@
+local Encryption = require("encryption")
+
 local monitor = peripheral.find("monitor")
 local deposit = peripheral.find("storagedrawers:oak_full_drawers_1")
 local storage = peripheral.find("sophisticatedstorage:iron_chest")
@@ -8,25 +10,7 @@ local balance = 0
 local depositAmount = 0
 local ticketPrice = 1
 
-local Encryption = {}
 local key = { 77, 30, 36, 18, 39, 34, 49, 56, 44, 19, 99, 97, 77, 29, 59, 100, 72, 62, 1, 1, 15, 58, 51, 5, 7, 79, 50, 3, 40, 85, 0, 87 }
-Encryption.Encrypt = function(text)
-    local encrypted = ""
-    for i = 1, string.len(text) do
-        local char = string.byte(text, i)
-        encrypted = encrypted .. string.char(char + key[i % #key])
-    end
-    return encrypted
-end
-
-Encryption.Decrypt = function(text)
-    local decrypted = ""
-    for i = 1, string.len(text) do
-        local char = string.byte(text, i)
-        decrypted = decrypted .. string.char(char - key[i % #key])
-    end
-    return decrypted
-end
 
 local function EverythingExists()
     if monitor == nil then
@@ -236,7 +220,7 @@ Pages.Main = function()
             local data = fs.open("disk/data", "r")
             local encryptedData = data.readAll()
             data.close()
-            local decryptedData = Encryption.Decrypt(encryptedData)
+            local decryptedData = Encryption.Decrypt(encryptedData, key)
             local data = textutils.unserializeJSON(decryptedData)
             balance = data.money
         end
@@ -356,7 +340,7 @@ Buttons.Deposit = function()
         balance = balance + tempAmount
         local data = { money = balance }
         local encryptedData = textutils.serializeJSON(data)
-        encryptedData = Encryption.Encrypt(encryptedData)
+        encryptedData = Encryption.Encrypt(encryptedData, key)
         if fs.exists("disk/data") == true then
             fs.delete("disk/data")
         end
@@ -381,7 +365,7 @@ Buttons.Convert = function()
         balance = 0
         local data = { money = balance }
         local encryptedData = textutils.serializeJSON(data)
-        encryptedData = Encryption.Encrypt(encryptedData)
+        encryptedData = Encryption.Encrypt(encryptedData, key)
         if fs.exists("disk/data") == true then
             fs.delete("disk/data")
         end
