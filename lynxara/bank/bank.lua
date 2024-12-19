@@ -75,17 +75,17 @@ Pages.Main = function()
         monitor.setCursorPos(21, 4 + i)
         monitor.write(" ")
     end
-    monitor.setCursorPos(4, 7)
+    monitor.setCursorPos(4, 8)
     monitor.write("                  ")
     monitor.setCursorPos(6, 6)
     if drive.isDiskPresent() == true then 
         monitor.setBackgroundColor(colors.green)
         monitor.setTextColor(colors.white)
-        monitor.write("Inserted")
+        monitor.write("   Inserted   ")
     else 
         monitor.setBackgroundColor(colors.red)
         monitor.setTextColor(colors.black)
-        monitor.write("Not Inserted")
+        monitor.write(" Not Inserted ")
     end
 end
 
