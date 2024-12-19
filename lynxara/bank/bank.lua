@@ -64,17 +64,29 @@ Pages.Main = function()
     monitor.setCursorPos(4, 4)
     monitor.write("  ")
     monitor.setBackgroundColor(colors.black)
+    monitor.write(" ")
     monitor.write(diTitle)
+    monitor.write(" ")
     monitor.setBackgroundColor(colors.gray)
     monitor.write("  ")
     for i = 1, 3 do
         monitor.setCursorPos(4, 4 + i)
         monitor.write(" ")
-        monitor.setCursorPos(25, 4 + i)
+        monitor.setCursorPos(21, 4 + i)
         monitor.write(" ")
     end
     monitor.setCursorPos(4, 7)
-    monitor.write("                         ")
+    monitor.write("                  ")
+    monitor.setCursorPos(6, 6)
+    if drive.isDiskPresent() == true then 
+        monitor.setBackgroundColor(colors.green)
+        monitor.setTextColor(colors.white)
+        monitor.write("Inserted")
+    else 
+        monitor.setBackgroundColor(colors.red)
+        monitor.setTextColor(colors.black)
+        monitor.write("Not Inserted")
+    end
 end
 
 Pages.Reset = function()
