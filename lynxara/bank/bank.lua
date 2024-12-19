@@ -6,6 +6,7 @@ local drive = peripheral.find("drive")
 
 local balance = 0
 local depositAmount = 0
+local ticketPrice = 1
 
 local Encryption = {}
 local key = { 77, 30, 36, 18, 39, 34, 49, 56, 44, 19, 99, 97, 77, 29, 59, 100, 72, 62, 1, 1, 15, 58, 51, 5, 7, 79, 50, 3, 40, 85, 0, 87 }
@@ -55,7 +56,7 @@ end
 local function BlinkButton(type, state)
     if type == "deposit" then
         local width, height = monitor.getSize()
-        if state == true then 
+        if state == true then
             monitor.setBackgroundColor(colors.blue)
             monitor.setCursorPos(5, 15)
             monitor.setTextColor(colors.white)
@@ -69,7 +70,7 @@ local function BlinkButton(type, state)
             monitor.write(string.rep(" ", width - 8))
             monitor.setCursorPos(math.floor(width / 2 - string.len("Deposit") / 2) + 1, 15)
             monitor.write("Deposit")
-        else 
+        else
             monitor.setBackgroundColor(colors.red)
             monitor.setCursorPos(5, 15)
             monitor.setTextColor(colors.white)
@@ -230,25 +231,28 @@ Pages.Main = function()
 
     -- Money Label
     if drive.isDiskPresent() == true then
-        local data = fs.open("disk/data", "r")
-        local encryptedData = data.readAll()
-        data.close()
-        local decryptedData = Encryption.Decrypt(encryptedData)
-        local data = textutils.unserializeJSON(decryptedData)
-        balance = data.money
+        local exists = fs.exists("disk/data")
+        if exists == true then
+            local data = fs.open("disk/data", "r")
+            local encryptedData = data.readAll()
+            data.close()
+            local decryptedData = Encryption.Decrypt(encryptedData)
+            local data = textutils.unserializeJSON(decryptedData)
+            balance = data.money
+        end
     else
         balance = 0
     end
 
-    local moneyLabel = "Money: " .. balance .. "C | Deposit: 0C"
-    monitor.setCursorPos(math.floor(width / 2 - string.len(moneyLabel) / 2) + 1, 12)
+    local moneyLabel = "Drives: " .. math.floor(balance / ticketPrice) .. " | Deposit: " .. depositAmount .. "C"
+    monitor.setCursorPos(math.floor(width / 2 - string.len(moneyLabel) / 2 + 1), 12)
     monitor.setBackgroundColor(colors.black)
     monitor.setTextColor(colors.white)
-    monitor.write("Money: ")
+    monitor.write("Drives: ")
     monitor.setTextColor(colors.green)
-    monitor.write(balance)
+    monitor.write(math.floor(balance / ticketPrice))
     monitor.setTextColor(colors.white)
-    monitor.write("C | Deposit: ")
+    monitor.write(" | Deposit: ")
     monitor.setTextColor(colors.green)
     monitor.write(depositAmount)
     monitor.setTextColor(colors.white)
@@ -330,6 +334,10 @@ local function Update()
             previousStatus = "deposit"
         end
 
+        if previousDeposit ~= depositAmount then
+            previousDeposit = depositAmount
+            Pages.Main()
+        end
         if status == "main" then
             if driveStatus ~= drive.isDiskPresent() then
                 previousStatus = "none"
@@ -355,6 +363,7 @@ Buttons.Deposit = function()
         local file = fs.open("disk/data", "w")
         file.write(encryptedData)
         file.close()
+        drive.setDiskLabel("PyroTrain Pass")
         BlinkButton("deposit", true)
     else
         BlinkButton("deposit", false)
@@ -381,6 +390,7 @@ Buttons.Convert = function()
         file.close()
         status = "none"
         BlinkButton("convert", true)
+        drive.setDiskLabel("PyroTrain Pass")
         status = "main"
         previousStatus = "none"
     else
