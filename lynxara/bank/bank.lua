@@ -40,22 +40,41 @@ Pages.Main = function()
     local labelText = "PyroTrain Menu"
 
     -- Title Label
-    monitor.setCursorPos(math.floor(width / 2 - string.len(labelText) / 2), 1)
+    monitor.setCursorPos(math.floor(width / 2 - string.len(labelText) / 2) + 1, 1)
     monitor.setTextColor(colors.yellow)
     monitor.write(labelText)
     
-    -- Gray border\
+    -- Border
     monitor.setBackgroundColor(colors.gray)
     monitor.setCursorPos(2, 2)
     monitor.write(string.rep(" ", width - 2))
     for i = 3, height - 2 do
         monitor.setCursorPos(2, i)
         monitor.write(" ")
-        monitor.setCursorPos(width, i)
+        monitor.setCursorPos(width - 1, i)
         monitor.write(" ")
     end
-    monitor.setCursorPos(2, height - 2)
+    monitor.setCursorPos(2, height - 1)
     monitor.write(string.rep(" ", width - 2))
+
+    -- Drive Info Module
+    -- Border
+    local diTitle = "Drive Status"
+    monitor.setBackgroundColor(colors.gray)
+    monitor.setCursorPos(4, 4)
+    monitor.write("  ")
+    monitor.setBackgroundColor(colors.black)
+    monitor.write(diTitle)
+    monitor.setBackgroundColor(colors.gray)
+    monitor.write("  ")
+    for i = 1, 3 do
+        monitor.setCursorPos(4, 4 + i)
+        monitor.write(" ")
+        monitor.setCursorPos(25, 4 + i)
+        monitor.write(" ")
+    end
+    monitor.setCursorPos(4, 7)
+    monitor.write("                         ")
 end
 
 Pages.Reset = function()
