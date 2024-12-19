@@ -114,6 +114,7 @@ end
 
 local status = "main"
 local previousStatus = "main"
+local driveStatus = false
 local function Update()
     Pages.Main()
     while true do 
@@ -127,6 +128,12 @@ local function Update()
         elseif status == "deposit" and previousStatus ~= "deposit" then
             Pages.Deposit()
             previousStatus = "deposit"
+        end
+
+        if status == "main" then 
+            if driveStatus ~= drive.isDiskPresent() then 
+                previousStatus = "none"
+            end
         end
     end
 end
@@ -149,7 +156,6 @@ local function EventCheck()
         sleep(0.1)
         
         local event, side, xPos, yPos = os.pullEvent("monitor_touch")
-        print(xPosy, yPos)
         if status == "main" then 
             if yPos == 6 and (xPos > 0 and xPos < 11) then 
                 Buttons.Reset()
