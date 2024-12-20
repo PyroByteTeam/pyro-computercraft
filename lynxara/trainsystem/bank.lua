@@ -33,8 +33,29 @@ local function EverythingExists()
 end
 
 if EverythingExists() == false then
-    print("Error: Not all peripherals found")
-    return
+    local exists = false 
+    while exists == false do
+        print("Some peripherals are missing:")
+        if monitor == nil then
+            print("Monitor is missing!")
+        end
+        if deposit == nil then
+            print("Deposit is missing!")
+        end
+        if storage == nil then
+            print("Storage is missing!")
+        end
+        if drive == nil then
+            print("Drive is missing!")
+        end
+
+        sleep(1)
+
+        exists = EverythingExists()
+        if exists == true then
+            print("All peripherals are connected!")
+        end
+    end
 end
 
 local function BlinkButton(type, state)
