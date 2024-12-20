@@ -11,18 +11,22 @@ local playerDetector = peripheral.find("playerDetector")
 local redstoneSide = "left"
 
 local function EverythingExists()
+    drive = peripheral.find("drive")
     if drive == nil then
         return false
     end
 
+    red_integrator = peripheral.find("redstoneIntegrator")
     if red_integrator == nil then
         return false
     end
 
+    chatBox = peripheral.find("chatBox")
     if chatBox == nil then
         return false
     end
 
+    playerDetector = peripheral.find("playerDetector")
     if playerDetector == nil then
         return false
     end

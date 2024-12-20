@@ -13,18 +13,25 @@ local ticketPrice = 1
 local key = { 77, 30, 36, 18, 39, 34, 49, 56, 44, 19, 99, 97, 77, 29, 59, 100, 72, 62, 1, 1, 15, 58, 51, 5, 7, 79, 50, 3, 40, 85, 0, 87 }
 
 local function EverythingExists()
+    monitor = peripheral.find("monitor")
     if monitor == nil then
         print("Monitor not found")
         return false
     end
+
+    deposit = peripheral.find("storagedrawers:oak_full_drawers_1")
     if deposit == nil then
         print("Deposit not found")
         return false
     end
+
+    storage = peripheral.find("sophisticatedstorage:iron_chest")
     if storage == nil then
         print("Storage not found")
         return false
     end
+
+    drive = peripheral.find("drive")
     if drive == nil then
         print("Drive not found")
         return false
