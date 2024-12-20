@@ -8,6 +8,8 @@ local red_integrator = peripheral.find("redstoneIntegrator")
 local chatBox = peripheral.find("chatBox")
 local playerDetector = peripheral.find("playerDetector")
 
+local redstoneSide = "left"
+
 local function EverythingExists()
     if drive == nil then
         return false
@@ -94,9 +96,9 @@ local function CheckDisk()
 
                 SendMessage(result.money)
 
-                red_integrator.setOutput("back", true)
+                red_integrator.setOutput(redstoneSide, true)
                 sleep(5)
-                red_integrator.setOutput("back", false)
+                red_integrator.setOutput(redstoneSide, false)
             else
                 drive.ejectDisk()
             end
